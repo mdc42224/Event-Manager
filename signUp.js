@@ -113,8 +113,7 @@ export function acitvateForms() {
 }
 
 function clearForm() {
-    singUpForm.reset();
-    loginForm.reset();
+   document.getElementById("entryContainer").style.display="none";
 }
 
 
