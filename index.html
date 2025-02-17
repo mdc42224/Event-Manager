@@ -9,57 +9,66 @@
 
 <body>
     <header>
-        <h1>Welcome To Set Game</h1>
+        <h1>Welcome To Event Manager</h1>
     </header>
     <div id="entryContainer">
-        <form action="" id="signupForm" style="display: none">
+        <section class="page" id="signUpPage">
+            <form action="" id="signupForm" >
 
-            <h2>Create Account</h2>
+                <h2>Create Account</h2>
 
-            <div class="inputContainer" id="UserNameCont">
-                <label for="createUser">User Name</label>
-                <input type="text" name="userName" class="userName" id="createUser">
-                <div id="usernameError" class="error">Username must be 3-15 characters long and contain only letters and
-                    numbers
+                <div class="inputContainer" id="UserNameCont">
+                    <label for="createUser">User Name</label>
+                    <input type="text" name="userName" class="userName" id="createUser">
+                    <div id="usernameError" class="error">Username must be 3-15 characters long and contain only letters
+                        and
+                        numbers
+                    </div>
+                    <div id="userFoundError" class="error">User Name Already Taken</div>
+
                 </div>
-                <div id="userFoundError" class="error">User Name Already Taken</div>
 
-            </div>
-
-            <div class="inputContainer" id="passwordCont">
-                <label for="createPassword">Password</label>
-                <input type="text" name="password" class="password" id="createPassword">
-                <div id="passwordError" class="error">Password must be at least 8 characters long and contain at least
-                    one
-                    uppercase letter, one lowercase letter, and one number
+                <div class="inputContainer" id="passwordCont">
+                    <label for="createPassword">Password</label>
+                    <input type="text" name="password" class="password" id="createPassword">
+                    <div id="passwordError" class="error">Password must be at least 8 characters long and contain at
+                        least
+                        one
+                        uppercase letter, one lowercase letter, and one number
+                    </div>
                 </div>
-            </div>
 
-            <div class="inputContainer" id="emailCont">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
-                <div id="emailError" class="error">Please enter a valid email address</div>
-            </div>
-
-            <button type="submit">Submit</button>
-
-        </form>
-        <form action="" method="get" id="loginForm" style="display: none">
-
-            <h2>Log In</h2>
-            <div id="login-container">
-                <div class="inputContainer">
-                    <label for="userLogin">User Name</label>
-                    <input type="text" name="userName" class="userName" id="userLogin">
+                <div class="inputContainer" id="emailCont">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required>
+                    <div id="emailError" class="error">Please enter a valid email address</div>
                 </div>
-                <div class="inputContainer">
-                    <label for="passwordLogin">Password</label>
-                    <input type="text" name="password" class="password" id="passwordLogin">
-                    <div id="passwordLoginError" class="error">Login Info does not match records</div>
+
+                <button type="submit">Submit</button>
+
+            </form>
+        </section>
+        <section class="page" id =logInPage>
+            <form action="" method="get" id="loginForm" >
+
+                <h2>Log In</h2>
+                <div id="login-container">
+                    <div class="inputContainer">
+                        <label for="userLogin">User Name</label>
+                        <input type="text" name="userName" class="userName" id="userLogin">
+                    </div>
+                    <div class="inputContainer">
+                        <label for="passwordLogin">Password</label>
+                        <input type="text" name="password" class="password" id="passwordLogin">
+                        <div id="passwordLoginError" class="error">Login Info does not match records</div>
+                    </div>
+                    <button type="submit">Log In</button>
                 </div>
-                <button type="submit">Log In</button>
-            </div>
-        </form>
+            </form>
+        </section>
+        <section class="page" id="appPage">
+
+        </section>
         <div id="entryButtonContainer">
 
             <button id="createAccount" class="formButton">Create Account</button>
