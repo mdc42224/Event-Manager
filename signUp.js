@@ -59,7 +59,7 @@ export function validateSignUp(e) {
         }
         users.push(newUser);
         localStorage.setItem("users", JSON.stringify(users));
-        clearForm();
+        
         return newUser;
 
     }
@@ -84,37 +84,24 @@ export function validateLogin(e) {
 
     }
     else {
-        clearForm();
+       
         return currentUser;
     }
 }
 export function acitvateForms() {
     const signUpInputs = singUpForm.querySelectorAll("input");
 
-
-
-    document.getElementById("createAccount").addEventListener("click", () => {
-        loginForm.style.display = "none";
-        singUpForm.style.display = "block";
-        for (let i = 0; i < signUpInputs.length; i++) {
+for (let i = 0; i < signUpInputs.length; i++) {
             let inp = signUpInputs[i];
             inp.addEventListener("input", () => {
                 inp.parentElement.querySelector(".error").style.display = "none";
                 validateInput(inp);
             });
         }
-    })
 
-    document.getElementById("logIn").addEventListener("click", () => {
-        singUpForm.style.display = "none";
-        loginForm.style.display = "block";
-    })
 
 }
 
-function clearForm() {
-   document.getElementById("entryContainer").style.display="none";
-}
 
 
 

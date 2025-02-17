@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+.page{
+    display: none;
+}
 
 body {
     height: 100vh;
@@ -27,7 +30,9 @@ h2 {
     padding: 20px;
     display:flex;
     justify-content: space-between;
+
 }
+
 
 #entryButtonContainer button:hover {
 background-color: #0080ff;
@@ -76,5 +81,11 @@ input {
 
 .success-border {
     border: 2px solid lawngreen;
+}
+.active{
+    display: block;
+}
+.inActive{
+    visibility: hidden;
 }
 
