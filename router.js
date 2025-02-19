@@ -1,27 +1,33 @@
 import * as V from "./signUp.js"
 import * as API from './api.js';
-
+import Store,{actions} from './store.js'
+const state = {
+    user: null,
+    event: null
+}
+const store = new Store(state);
+const appTitle = document.getElementById('appTitle');
 
 const pages = document.querySelectorAll(".page");
 const signUpForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
 const eventForm = document.getElementById("addEventForm");
 
-let currentUser;
 
 V.activateForms();
 
 signUpForm.addEventListener("submit", (e) => {
-    currentUser = V.validateSignUp(e);
-    checkCurrentUser();
+    const currentUser = V.validateSignUp(e);
+    store.dispatch(actions.setUser(currentUser))
+    
 });
 
 loginForm.addEventListener("submit", (e) => {
-    currentUser = V.validateLogin(e);
-    checkCurrentUser();
+    const currentUser = V.validateLogin(e);
+    store.dispatch(actions.setUser(currentUser))
 });
 
-function checkCurrentUser() {
+function checkCurrentUser(currentUser) {
     if (currentUser) {
         console.log(currentUser);
         switchPages(document.getElementById("appPage"));
@@ -29,6 +35,18 @@ function checkCurrentUser() {
         loadAppPage();
     }
 }
+document.querySelector("#addEventButton").addEventListener('click',activateEventForm)
+
+store.subscribe((state => {
+
+    if(store.getPreviewState().user?.userName !== state?.user?.userName) {
+   
+        appTitle.textContent = `Hello ${state.user.userName}`;
+        checkCurrentUser(state.user);
+
+    }
+
+}))
 
 addEventListener("popstate", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -73,9 +91,6 @@ function loadAppPage() {
             appPage.appendChild(button);
         })
     });
-    const appTitle = document.getElementById('appTitle');
-    appTitle.textContent = `Hello ${currentUser.userName}`;
-    document.querySelector("#addEventButton").addEventListener('click',activateEventForm)
 }
 
 function loadEventDetails(event){
@@ -127,3 +142,10 @@ function addGuest(){
 
 }
 
+
+ 
+
+/*API.getAllUsers().then(users => {
+        users.find(user=> user.rank === 'manager' && user.name===currentUser.name)
+    })
+        */
