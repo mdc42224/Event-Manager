@@ -11,6 +11,8 @@ const appTitle = document.getElementById('appTitle');
 const pages = document.querySelectorAll(".page");
 const signUpForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
+const eventForm = document.getElementById("addEventForm");
+
 
 V.activateForms();
 
@@ -33,6 +35,7 @@ function checkCurrentUser(currentUser) {
         loadAppPage();
     }
 }
+document.querySelector("#addEventButton").addEventListener('click',activateEventForm)
 
 store.subscribe((state => {
 
@@ -40,6 +43,7 @@ store.subscribe((state => {
    
         appTitle.textContent = `Hello ${state.user.userName}`;
         checkCurrentUser(state.user);
+
     }
 
 }))
@@ -111,6 +115,31 @@ function getHebrewDate(timestamp) {
         monthName: month,
         year: year
     };
+}
+function activateEventForm(){
+    const addButton = document.getElementById("addEventButton")
+    const addGuestButton = document.getElementById("addGuestButton");
+
+
+    eventForm.classList.toggle("active");
+    let buttonText = addButton.textContent;
+    addButton.textContent = buttonText==="Add Event"?"Minimize Form":"Add Event";
+
+    addGuestButton.addEventListener('click',addGuest);
+
+}
+function addGuest(){
+    let guest = document.createElement("div");
+    guest.className = "guestContainer";
+    guest.innerHTML= ` <h3 style="text-align: center;">New Guest</h3>
+                <label for="guestName">Name</label>
+                <input type="text" name="guestName" id="guestName" >
+                <label for="guestEmail">E-mail</label>
+                <input type="email" name="guestEmail" id="guestEmail" >
+                <button class="removeGuest">remove</button>`;
+    guest.querySelector('button').addEventListener('click',()=>guest.remove());
+    document.getElementById('allGuests').appendChild(guest);            
+
 }
 
 

@@ -42,7 +42,7 @@ h2 {
 background-color: #0080ff;
 }
 
-form button , #entryButtonContainer button{
+form button , #entryButtonContainer button,#addEventButton{
     background-color: blue;
     color: white;
     padding: 10px 15px;
@@ -51,6 +51,7 @@ form button , #entryButtonContainer button{
     cursor: pointer;
     display:flex;
     margin-left: 100px;
+    margin-top: 10px;
     justify-content: center;
     width: 200px;
 }
@@ -60,7 +61,7 @@ form button , #entryButtonContainer button{
     margin: 0;
 }
 
- form button:hover {
+ form button:hover,#addEventButton:hover {
     background-color: #45a049;
     transform: scale(1.2);
 }
@@ -73,8 +74,10 @@ input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
+    margin-bottom: 5px;
     box-sizing: border-box;
 }
+
 
 .error {
     color: red;
@@ -90,6 +93,23 @@ input {
 .success-border {
     border: 2px solid lawngreen;
 }
+.guestContainer{
+    border: solid black 1px;
+    margin: 10px;
+    padding: 10px;
+}
+#addEventForm button{
+    height: 30px;
+    width: 100px;
+    margin: auto;
+}
+#addEventButton{
+    height: 50px;
+    width: 200px;
+    font-size: large;
+    margin: auto;
+}
+
 
 .active{
     display: block;
@@ -107,7 +127,7 @@ input {
 }
 
 .grid-event {
-    ox-shadow: 0px 0px 12px 0px #0036ff;
+    box-shadow: 0px 0px 12px 0px #0036ff;
     border: 1px solid #000000;
     padding: 40px;
     text-align: center;
