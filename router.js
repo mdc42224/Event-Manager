@@ -154,8 +154,8 @@ function submitNewForm(e){
     let guestsGroups = eventForm.querySelectorAll('.guestContainer')
     let guests =[];
     guestsGroups.forEach((guestGroup)=>{
-        let guestName = guestGroup.querySelector("guestName.").value;
-        let guestEmail = guestGroup.querySelector('guestEmail').value;
+        let guestName = guestGroup.querySelector("#guestName").value;
+        let guestEmail = guestGroup.querySelector('#guestEmail').value;
         guests.push( {"guestName":guestName,email:guestEmail})
     })
     let formInfo = {name:eventName,location:eventLocation,date:eventDate,guestList:guests,userName:store.getState.user};
