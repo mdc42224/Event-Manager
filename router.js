@@ -145,7 +145,7 @@ function addGuest(){
     guest.querySelector('button').addEventListener('click',()=>guest.remove());
     document.getElementById('allGuests').appendChild(guest);            
 
-}
+} ""
 function submitNewForm(e){
     e.preventDefault();
     let eventName= eventForm.querySelector('#eventName').value;
@@ -162,6 +162,8 @@ function submitNewForm(e){
     API.submitEvent(formInfo).then(resetAppPage()).then(loadAppPage);
 }
 function resetAppPage(){
+    const addButton = document.getElementById("addEventButton")
+
     eventForm.reset();
     eventForm.querySelector("#allGuests").innerHTML="";
     eventForm.classList.toggle("active");
