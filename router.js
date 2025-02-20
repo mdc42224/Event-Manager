@@ -7,21 +7,22 @@ const state = {
 }
 const store = new Store(state);
 const appTitle = document.getElementById('appTitle');
-
 const pages = document.querySelectorAll(".page");
 const signUpForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
 const eventForm = document.getElementById("addEventForm");
-
+const addGuestButton = document.getElementById("addGuestButton");
 
 V.activateForms();
 
+document.querySelector("#addEventButton").addEventListener('click',activateEventForm)  
+addGuestButton.addEventListener('click',addGuest);
+eventForm.addEventListener('submit',(e)=>submitNewForm(e))
 signUpForm.addEventListener("submit", (e) => {
     const currentUser = V.validateSignUp(e);
     store.dispatch(actions.setUser(currentUser))
     
 });
-
 loginForm.addEventListener("submit", (e) => {
     const currentUser = V.validateLogin(e);
     console.log(currentUser);
@@ -30,28 +31,6 @@ loginForm.addEventListener("submit", (e) => {
     console.log(store.getState.user);
     
 });
-
-function checkCurrentUser(currentUser) {
-    if (currentUser) {
-        console.log(currentUser);
-        switchPages(document.getElementById("appPage"));
-        window.history.pushState({}, "", `?page=appPage`);
-        loadAppPage();
-    }
-}
-document.querySelector("#addEventButton").addEventListener('click',activateEventForm)
-
-store.subscribe((state => {
-
-    if(store.getPreviewState().user?.userName !== state?.user?.userName) {
-   
-        appTitle.textContent = `Hello ${state.user.userName}`;
-        checkCurrentUser(state.user);
-
-    }
-
-}))
-
 addEventListener("popstate", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const currentPage = urlParams.get('page') || 'home';
@@ -68,6 +47,29 @@ document.getElementById("logIn").addEventListener("click", () => {
     window.history.pushState({}, "", `?page=logInPage`)
 });
 
+
+function checkCurrentUser(currentUser) {
+    if (currentUser) {
+        console.log(currentUser);
+        switchPages(document.getElementById("appPage"));
+        window.history.pushState({}, "", `?page=appPage`);
+        loadAppPage();
+    }
+}
+
+
+store.subscribe((state => {
+
+    if(store.getPreviewState().user?.userName !== state?.user?.userName) {
+   
+        appTitle.textContent = `Hello ${state.user.userName}`;
+        checkCurrentUser(state.user);
+
+    }
+
+}))
+
+
 function switchPages(section) {
     pages.forEach(cur => {
         cur.classList.remove("active");
@@ -80,57 +82,56 @@ function switchPages(section) {
 function loadAppPage() {
     const appPage = document.getElementById('eventsContainer');
     appPage.innerHTML = "";
-    API.getAllEvents().then(events => {
-        events.map(event => {
-            const button = document.createElement('button');
-            const div = document.createElement("div");
-            button.className = "grid-event";
-            // const date = getHebrewDate(event.date);
-            div.innerHTML = `
-           <h3>${event.name}</h3>
-           <p>${event.date}</p>
-        `;
-            button.appendChild(div);
-            button.addEventListener('click', () => loadEventDetails(event));
-            appPage.appendChild(button);
-        })
+   return API.getAllEvents().then(events => {
+       loadEvents(events,appPage);
     });
+}
+function loadEvents(events,appPage){
+   events.filter(event=>event.userName===store.getState().user.userName). 
+        forEach(event => {
+        const button = document.createElement('button');
+        const div = document.createElement("div");
+        button.className = "grid-event";
+        // const date = getHebrewDate(event.date);
+        div.innerHTML = `
+       <h3>${event.name}</h3>
+       <p>${event.date}</p>
+    `;
+        button.appendChild(div);
+        button.addEventListener('click', () => loadEventDetails(event));
+        appPage.appendChild(button);
+    })
 }
 
 function loadEventDetails(event){
 
 }
-function getHebrewDate(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const hebrewDays = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-    const hebrewMonths = [
-        "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
-        "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
-    ];
-    const day = date.getDate();
-    const month = hebrewMonths[date.getMonth()];
-    const year = date.getFullYear();
-    const dayOfWeek = hebrewDays[date.getDay()];
+//  function getHebrewDate(timestamp) {
+//     const date = new Date(timestamp * 1000);
+//     const hebrewDays = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+//     const hebrewMonths = [
+//         "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
+//         "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
+//     ];
+//     const day = date.getDate();
+//     const month = hebrewMonths[date.getMonth()];
+//     const year = date.getFullYear();
+//     const dayOfWeek = hebrewDays[date.getDay()];
 
-    return {
-        fullDate: `יום ${dayOfWeek} ${day} ב${month} ${year}`,
-        dayName: dayOfWeek,
-        dayInMonth: day,
-        monthName: month,
-        year: year
-    };
-}
-function activateEventForm(){
-    const addButton = document.getElementById("addEventButton")
-    const addGuestButton = document.getElementById("addGuestButton");
+//     return {
+//         fullDate: `יום ${dayOfWeek} ${day} ב${month} ${year}`,
+//         dayName: dayOfWeek,
+//         dayInMonth: day,
+//         monthName: month,
+//         year: year
+//     };}
     
 
-    eventForm.classList.toggle("active");
-    let buttonText = addButton.textContent;
-    addButton.textContent = eventForm.classList.contains("active")?"Minimize Form":"Add Event";
 
-    addGuestButton.addEventListener('click',addGuest);
-    eventForm.addEventListener('submit',(e)=>submitNewForm(e))
+function activateEventForm(){
+    const addButton = document.getElementById("addEventButton")
+    eventForm.classList.toggle("active");
+    addButton.textContent = eventForm.classList.contains("active")?"Minimize Form":"Add Event";
 
 }
 function addGuest(){
@@ -146,7 +147,7 @@ function addGuest(){
     document.getElementById('allGuests').appendChild(guest);            
 
 }
-function submitNewForm(e){
+async function submitNewForm(e){
     e.preventDefault();
     let eventName= eventForm.querySelector('#eventName').value;
     let eventDate =eventForm.querySelector('#eventDate').value;
@@ -158,10 +159,24 @@ function submitNewForm(e){
         let guestEmail = guestGroup.querySelector('#guestEmail').value;
         guests.push( {"guestName":guestName,email:guestEmail})
     })
-    let formInfo = {name:eventName,location:eventLocation,date:eventDate,guestList:guests,userName:store.getState.user};
-    API.submitEvent(formInfo).then(eventForm.reset()).then(loadAppPage);
+    let formInfo = {name:eventName,location:eventLocation,date:eventDate,guestList:guests,userName:store.getState().user.userName};
+      // Wait for the API call to complete before resetting and reloading
+      try {
+        await API.submitEvent(formInfo);
+        resetAppPage();
+        await loadAppPage();
+    } catch (error) {
+        console.error('Error submitting event:', error);
+    }
 }
+function resetAppPage(){
+    const addButton = document.getElementById("addEventButton");
+    eventForm.reset();
+    eventForm.querySelector("#allGuests").innerHTML="";
+    eventForm.classList.toggle("active");
+    addButton.textContent = eventForm.classList.contains("active")?"Minimize Form":"Add Event";
 
+}
 
  
 
