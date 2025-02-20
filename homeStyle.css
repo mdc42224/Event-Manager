@@ -129,8 +129,14 @@ input {
 .grid-event {
     box-shadow: 0px 0px 12px 0px #0036ff;
     border: 1px solid #000000;
-    padding: 40px;
+    height: 150px;
+    width: 300px;
     text-align: center;
     /* background: #4800ff73; */
     border-radius: 25px;
+    cursor: pointer;
+}
+
+.grid-event:hover {
+   transform: scale(1.1);
 }
