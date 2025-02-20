@@ -24,7 +24,11 @@ signUpForm.addEventListener("submit", (e) => {
 
 loginForm.addEventListener("submit", (e) => {
     const currentUser = V.validateLogin(e);
+    console.log(currentUser);
+    
     store.dispatch(actions.setUser(currentUser))
+    console.log(store.getState.user);
+    
 });
 
 function checkCurrentUser(currentUser) {
@@ -81,10 +85,10 @@ function loadAppPage() {
             const button = document.createElement('button');
             const div = document.createElement("div");
             button.className = "grid-event";
-            const date = getHebrewDate(event.date);
+            // const date = getHebrewDate(event.date);
             div.innerHTML = `
            <h3>${event.name}</h3>
-           <p>${date.fullDate}</p>
+           <p>${event.date}</p>
         `;
             button.appendChild(div);
             button.addEventListener('click', () => loadEventDetails(event));
@@ -119,13 +123,14 @@ function getHebrewDate(timestamp) {
 function activateEventForm(){
     const addButton = document.getElementById("addEventButton")
     const addGuestButton = document.getElementById("addGuestButton");
-
+    
 
     eventForm.classList.toggle("active");
     let buttonText = addButton.textContent;
-    addButton.textContent = buttonText==="Add Event"?"Minimize Form":"Add Event";
+    addButton.textContent = eventForm.classList.contains("active")?"Minimize Form":"Add Event";
 
     addGuestButton.addEventListener('click',addGuest);
+    eventForm.addEventListener('submit',(e)=>submitNewForm(e))
 
 }
 function addGuest(){
@@ -140,6 +145,21 @@ function addGuest(){
     guest.querySelector('button').addEventListener('click',()=>guest.remove());
     document.getElementById('allGuests').appendChild(guest);            
 
+}
+function submitNewForm(e){
+    e.preventDefault();
+    let eventName= eventForm.querySelector('#eventName').value;
+    let eventDate =eventForm.querySelector('#eventDate').value;
+    let eventLocation =eventForm.querySelector('#eventLocation').value;
+    let guestsGroups = eventForm.querySelectorAll('.guestContainer')
+    let guests =[];
+    guestsGroups.forEach((guestGroup)=>{
+        let guestName = guestGroup.querySelector("guestName.").value;
+        let guestEmail = guestGroup.querySelector('guestEmail').value;
+        guests.push( {"guestName":guestName,email:guestEmail})
+    })
+    let formInfo = {name:eventName,location:eventLocation,date:eventDate,guestList:guests,userName:store.getState.user};
+    API.submitEvent(formInfo).then(eventForm.reset()).then(loadAppPage);
 }
 
 
