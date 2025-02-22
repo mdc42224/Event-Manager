@@ -115,7 +115,17 @@ function loadEvents(events, appPage) {
         })
 }
 
-function loadEventDetails(event) {
+
+function loadEventDetails(event){
+    const eventPage = document.getElementById('eventPage');
+    switchPages(eventPage);
+    window.history.pushState({}, "", `?page=eventPage`)
+    const eventDisplay =document.getElementById("eventDisplay");
+    eventDisplay.innerHTML= 
+    ` <h3 style="text-align: center;">${event.name}</h3>
+    <div>Date: ${event.date}</div>
+    <div>Location: ${event.location}</div>
+    `;
 
 }
 //  function getHebrewDate(timestamp) {
